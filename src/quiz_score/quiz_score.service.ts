@@ -10,14 +10,14 @@ export class QuizScoreService{
     ){}
 
     //퀴즈 결과 저장하기
-    async saveQuizResult(userMbti:string, quizMbti:string, score:number){
-        const quizResult = this.quizScoreRepository.create({ //QuizScore의 새로운 객체(엔티티) 생성
+    async saveQuizResult(userMbti:string, quizMbti:string, score:number): Promise<QuizScore>{
+        const quizResult = await this.quizScoreRepository.create({ //QuizScore의 새로운 객체(엔티티) 생성
             userMbti : userMbti,
             quizMbti: quizMbti,
             score : score
         })
-        this.quizScoreRepository.save(quizResult); //퀴즈 결과를 DB에 저장
-
+        await this.quizScoreRepository.save(quizResult); //퀴즈 결과를 DB에 저장
+        return quizResult;
     }
 
     //통계
