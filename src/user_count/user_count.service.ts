@@ -20,7 +20,6 @@ export class UserCountService{
     async getShareUserCount(): Promise<number>{ 
         const numbers = this.userCountRepository.findOne({where : {id : 1}});
         const share_num = (await numbers).share;
-        console.log(share_num);
         return share_num;
     }
 

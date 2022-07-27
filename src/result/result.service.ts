@@ -24,13 +24,19 @@ export class ResultService{
         //퀴즈 사용자 수 1 증가
         this.userCountService.addQuizUserCount();
         //요청된 정보들 QuizScore 엔티티에 저장하기
-        //this.quizScoreService.saveQuizResult(ResultDto);
+        this.quizScoreService.saveQuizResult(ResultDto);
         //공유자 수 가져오기
         const shareUserNum = await this.userCountService.getShareUserCount();
+        //나와 같은 경우로 퀴즈를 본 사용자 수 가져오기
+        const same_quiz_num = await this.quizScoreService.getSameCaseNum(ResultDto);
+        //나와 같은 경우로 퀴즈를 본 사용자들의 평균 점수 가져오기
+        const same_quiz_avg_score = await this.quizScoreService.getSameCaseScore(ResultDto);
         //응답 Body Dto 생성
         const staticDto: StaticDto = {
             quizMbti: ResultDto.quizMbti,
-            shareUserNum: shareUserNum
+            shareUserNum: shareUserNum,
+            avgScore: same_quiz_avg_score,
+            quizNum: same_quiz_num
         }
         return staticDto;
     }
@@ -40,16 +46,5 @@ export class ResultService{
         this.userCountService.addShareUserCount();
         return { "isSuccess" : true };
     }
-
-    //나와 같은 경우로 퀴즈를 응한 사용자 수
-    getSameCaseNum(ResultDto: ResultDto){
-        //const a = this.quizScoreService.getSameCaseNum(ResultDto);
-        const a = this.quizScoreService.getSameCaseScore(ResultDto);
-        console.log(a)
-        return a
-    }
-
-    //나와 같은 경우로 퀴즈를 응한 사용자들의 평균 점수
-    getSameCaseScore(){}
 
 }

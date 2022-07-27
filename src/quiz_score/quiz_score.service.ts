@@ -29,13 +29,6 @@ export class QuizScoreService{
         //                         .from(QuizScore, "quiz_score")
         //                         .where("quiz_score.userMbti = :userMbti and quiz_score.quizMbti = :quizMbti", 
         //                             {userMbti: ResultDto.userMbti, quizMbti : ResultDto.quizMbti});
-        // console.log(same_case_num)
-
-        const same_case_num = this.quizScoreRepository
-                                .createQueryBuilder("quiz_score")
-                                .where("quiz_score.userMbti = :userMbti and quiz_score.quizMbti = :quizMbti", 
-                                    {userMbti: ResultDto.userMbti, quizMbti : ResultDto.quizMbti}).getCount();
-        //console.log(same_case_num)
         // const same_case = this.quizScoreRepository.find({
         //     select: num,
         //     where : {
@@ -43,6 +36,13 @@ export class QuizScoreService{
         //         userMbti: ResultDto.userMbti
         //     }
         // })
+        
+        //typeorm querybuilder 사용하여 SQL 작성하기
+        const same_case_num = this.quizScoreRepository
+                                .createQueryBuilder("quiz_score")
+                                .where("quiz_score.userMbti = :userMbti and quiz_score.quizMbti = :quizMbti", 
+                                    {userMbti: ResultDto.userMbti, quizMbti : ResultDto.quizMbti}).getCount();
+       
         return same_case_num
     }
 
@@ -53,19 +53,12 @@ export class QuizScoreService{
         //                             .select("quiz_score.score")
         //                             .where("quiz_score.userMbti = :userMbti and quiz_score.quizMbti = :quizMbti", 
         //                             {userMbti: ResultDto.userMbti, quizMbti : ResultDto.quizMbti}).getMany;
-
-        const num = this.getSameCaseNum(ResultDto);
-        const raws = this.quizScoreRepository.find({ where : { quizMbti : ResultDto.quizMbti, userMbti : ResultDto.userMbti}});
-        console.log(raws[0])
-        console.log((await raws).length)
-        console.log((await raws)
-        )
+        const raws = await this.quizScoreRepository.find({ where : { quizMbti : ResultDto.quizMbti, userMbti : ResultDto.userMbti}});
         var index = 0;
-        for(var i=0; i<await num; i++){
-            index += (await raws).length
+        for(var i=0; i<raws.length; i++){
+            index += raws[i].score
         }
-        const avgScore = index / await num
-        return raws[0]
+        return index / raws.length //평균 점수 구하기
     }
 
 }
