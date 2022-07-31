@@ -31,12 +31,15 @@ export class ResultService{
         const same_quiz_num = await this.quizScoreService.getSameCaseNum(ResultDto);
         //나와 같은 경우로 퀴즈를 본 사용자들의 평균 점수 가져오기
         const same_quiz_avg_score = await this.quizScoreService.getSameCaseScore(ResultDto);
+        //내가 응한 quizMbti를 응시한 다른 mbti 수 순위
+        const rank = await this.quizScoreService.getQuizNumRank(ResultDto);
         //응답 Body Dto 생성
         const staticDto: StaticDto = {
             quizMbti: ResultDto.quizMbti,
             shareUserNum: shareUserNum,
             avgScore: same_quiz_avg_score,
-            quizNum: same_quiz_num
+            quizNum: same_quiz_num,
+            rank: rank
         }
         return staticDto;
     }
