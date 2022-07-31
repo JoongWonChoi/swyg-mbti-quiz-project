@@ -68,7 +68,8 @@ export class QuizScoreService{
                                         .groupBy('quiz_score.userMbti')
                                         .having('quiz_score.quizMbti = :quizMbti',
                                         {quizMbti : ResultDto.quizMbti}).getMany()
-        //quizMbti를 대상으로 퀴즈를 본 각 mbti 사용자 수 구하기기
+        //quizMbti를 대상으로 퀴즈를 본 각 mbti 사용자 수 구하기
+        console.log(temps)
         const size = temps.length
         var arr: Array<rank> = [];
         for(var i=0; i<size; i++){
@@ -87,11 +88,12 @@ export class QuizScoreService{
             (first: rank, second: rank) => 
                  (first.num < second.num) ? 1 : -1
         );
+        //배열길이 4로 맞추기
         if(arr.length>4){
             while(arr.length>4){
                 arr.pop();
             }
-        }
+        };
         console.log(arr);
         return arr
     }

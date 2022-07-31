@@ -22,23 +22,23 @@ export class ResultService{
     //결과 응답
     async showResult(ResultDto: ResultDto): Promise<StaticDto>{
         //퀴즈 사용자 수 1 증가
-        this.userCountService.addQuizUserCount();
+        await this.userCountService.addQuizUserCount();
         //요청된 정보들 QuizScore 엔티티에 저장하기
-        this.quizScoreService.saveQuizResult(ResultDto);
+        await this.quizScoreService.saveQuizResult(ResultDto);
         //공유자 수 가져오기
         const shareUserNum = await this.userCountService.getShareUserCount();
         //나와 같은 경우로 퀴즈를 본 사용자 수 가져오기
-        const same_quiz_num = await this.quizScoreService.getSameCaseNum(ResultDto);
+        //const same_quiz_num = await this.quizScoreService.getSameCaseNum(ResultDto);
         //나와 같은 경우로 퀴즈를 본 사용자들의 평균 점수 가져오기
-        const same_quiz_avg_score = await this.quizScoreService.getSameCaseScore(ResultDto);
+        //const same_quiz_avg_score = await this.quizScoreService.getSameCaseScore(ResultDto);
         //내가 응한 quizMbti를 응시한 다른 mbti 수 순위
         const rank = await this.quizScoreService.getQuizNumRank(ResultDto);
         //응답 Body Dto 생성
         const staticDto: StaticDto = {
             quizMbti: ResultDto.quizMbti,
             shareUserNum: shareUserNum,
-            avgScore: same_quiz_avg_score,
-            quizNum: same_quiz_num,
+            //avgScore: same_quiz_avg_score,
+            //quizNum: same_quiz_num,
             rank: rank
         }
         return staticDto;
