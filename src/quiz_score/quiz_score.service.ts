@@ -88,10 +88,27 @@ export class QuizScoreService{
             (first: rank, second: rank) => 
                  (first.num < second.num) ? 1 : -1
         );
-        //배열길이 4로 맞추기
-        if(arr.length>4){
+        const mbti_arr = ["ISFJ", "INFJ", "ISFP", "INFP", "ISTJ", "INTJ", "ISTP", "INTP", "ESFJ", "ENFJ", "ESFP", "ENFP", "ESTJ", "ENTJ", "ESTP", "ENTP"]
+        // (*) 배열길이 4로 맞추기
+        if(arr.length>4){ //배열 길이가 4보다 클 때 => 4개로 줄여야함
             while(arr.length>4){
                 arr.pop();
+            };
+        }
+        else if(arr.length<4){ //배열 길이가 4보다 작을 때 => 4개로 채워야함
+            while(arr.length<4){ //배열 길이가 4가 되면 break
+                const random = Math.floor(Math.random()*16);
+                for(var i=0; i<arr.length; i++){
+                    if(mbti_arr[random] == arr[i].mbti){
+                        break //
+                    }
+                }
+                console.log("not in arr"+mbti_arr[random])
+                var rank: rank = {
+                    mbti: mbti_arr[random],
+                    num: 0
+                }
+                arr.push(rank);
             }
         };
         console.log(arr);
