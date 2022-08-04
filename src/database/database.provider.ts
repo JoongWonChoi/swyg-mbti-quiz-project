@@ -8,10 +8,10 @@ export const databaseProviders = [
         useFactory: async () =>{
             const dataSource = new DataSource({
                 type: 'mysql',
-                host: '127.0.0.1',
+                host: 'swyg-mbti-quiz.cfdsahgovhq4.us-west-2.rds.amazonaws.com',
                 port: 3306,
-                username: 'root',
-                password: '1234',
+                username: 'admin',
+                password: 'wnddnjs11',
                 database: 'swyg-mbti-quiz',
                 entities: [__dirname + '/../**/*.entity{.ts,.js}'],
                 synchronize: true,
